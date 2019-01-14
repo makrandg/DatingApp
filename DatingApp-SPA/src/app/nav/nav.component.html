@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#" [routerLink]="['/home']">Dating Apps</a>
+
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" href="#" [routerLink]="['/members']">Matches</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" href="#" [routerLink]="['/lists']"> Lists </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" href="#" [routerLink]="['/messages']">Messages</a>
+      </li>
+    </ul>
+
+    <div class="dropdown" *ngIf="loggedIn()" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        Welcome {{ authService.decodedToken?.unique_name | titlecase }}
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" href="#">
+          <i class="fa fa-user"></i> Edit Profile
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()">
+          <i class="fa fa-sign-out"></i> Logout
+        </a>
+      </div>
+    </div>
+
+    <form
+      #loginForm="ngForm"
+      class="form-inline my-2 my-lg-0"
+      (ngSubmit)="login()"
+      *ngIf="!loggedIn()"
+    >
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        name="username"
+        placeholder="Username"
+        [(ngModel)]="model.username"
+        #username="ngModel"
+        required
+      />
+      <input
+        class="form-control mr-sm-2"
+        type="password"
+        name="password"
+        placeholder="Password"
+        [(ngModel)]="model.password"
+        #password="ngModel"
+        required
+      />
+      <button
+        class="btn btn-success my-2 my-sm-0"
+        type="submit"
+        [disabled]="!loginForm.valid"
+      >
+        Search
+      </button>
+    </form>
+  </div>
+</nav>

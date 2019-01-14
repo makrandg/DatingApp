@@ -37,7 +37,7 @@ namespace Dating.API.Controllers
 
             var usertocreate = new User
             {
-                UserName = userForRegisterDto.UserName
+                Username = userForRegisterDto.UserName
             };
 
             var createUser = await _repo.Register(usertocreate, userForRegisterDto.Password);
@@ -49,6 +49,9 @@ namespace Dating.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
+
+         
+            
             var userFromRepo = await _repo.Login(userForLoginDto.UserName.ToLower(), userForLoginDto.Password);
 
             if (userFromRepo == null)
@@ -57,7 +60,7 @@ namespace Dating.API.Controllers
             var claims = new[]
             {
                  new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
-                 new Claim(ClaimTypes.Name,userFromRepo.UserName.ToString())
+                 new Claim(ClaimTypes.Name,userFromRepo.Username.ToString())
              };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
